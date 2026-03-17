@@ -1,20 +1,3 @@
-tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        jet: '#0A0A0A',
-                        royal: '#7B2FBE',
-                        gold: '#FFD700',
-                        darkSurface: '#111111',
-                        cardDark: '#141414',
-                    },
-                    fontFamily: {
-                        space: ['Space Grotesk', 'sans-serif'],
-                    },
-                }
-            }
-        }
-
 (function(){
   var params=new URLSearchParams(window.location.search);
   var fields={};
@@ -138,171 +121,97 @@ tailwind.config = {
   else{run();}
 })();
 
-// ==========================================
-        // Floating Particles
-        // ==========================================
-        function createParticles() {
-            const container = document.getElementById('particles');
-            const particleCount = window.innerWidth < 768 ? 20 : 40;
+// Custom Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
 
-                const size = Math.random() * 3 + 1;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 15 + 10) + 's';
-                particle.style.animationDelay = (Math.random() * 10) + 's';
+  function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
 
-                // Mix of gold and purple particles
-                if (Math.random() > 0.6) {
-                    particle.style.background = 'rgba(123, 47, 190, 0.4)';
-                }
+  document.querySelectorAll('button, a').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(2)';
+      ring.style.transform = 'translate(-50%, -50%) scale(1.5)';
+      ring.style.borderColor = 'rgba(201,168,76,0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.transform = 'translate(-50%, -50%) scale(1)';
+      ring.style.borderColor = 'rgba(201,168,76,0.5)';
+    });
+  });
 
-                container.appendChild(particle);
-            }
-        }
-        createParticles();
+  // Particles
+  function createParticle() {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (Math.random() * 12 + 8) + 's';
+    p.style.animationDelay = (Math.random() * 5) + 's';
+    p.style.width = p.style.height = (Math.random() * 2 + 1) + 'px';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 20000);
+  }
+  setInterval(createParticle, 800);
 
-        // ==========================================
-        // Intersection Observer for fade-in animations
-        // ==========================================
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+  // Scroll Animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+  document.querySelectorAll('.stat-item, .section-label, .section-title, .feature-card, .cta-title, .cta-sub, .cta-btn-wrap').forEach((el, i) => {
+    if (el.classList.contains('feature-card')) {
+      el.style.transitionDelay = (i % 3) * 0.1 + 's';
+    }
+    observer.observe(el);
+  });
 
-        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
-            observer.observe(el);
+  // Counter Animation
+  function animateCounter(el, target, suffix = '') {
+    const duration = 2000;
+    const start = performance.now();
+    const isDecimal = String(target).includes('.');
+
+    function update(time) {
+      const elapsed = time - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = eased * target;
+      el.textContent = isDecimal ? current.toFixed(1) : Math.floor(current);
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.stat-number');
+        nums.forEach(num => {
+          const target = parseFloat(num.dataset.target);
+          animateCounter(num, target);
         });
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.3 });
 
-        // ==========================================
-        // Smooth scroll for anchor links
-        // ==========================================
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // ==========================================
-        // Contact Form Handler
-        // ==========================================
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Simulate form submission
-            const form = this;
-            const button = form.querySelector('button[type="submit"]');
-            const originalText = button.textContent;
-
-            button.textContent = 'Sending...';
-            button.disabled = true;
-
-            setTimeout(() => {
-                form.classList.add('hidden');
-                document.getElementById('formSuccess').classList.remove('hidden');
-            }, 1500);
-        });
-
-        // ==========================================
-        // Parallax-like subtle mouse movement on hero
-        // ==========================================
-        const hero = document.getElementById('hero');
-        if (window.innerWidth > 768) {
-            hero.addEventListener('mousemove', (e) => {
-                const x = (e.clientX / window.innerWidth - 0.5) * 10;
-                const y = (e.clientY / window.innerHeight - 0.5) * 10;
-
-                const crown = hero.querySelector('.crown-float');
-                if (crown) {
-                    crown.style.transform = `translateY(${-15 + y * 0.5}px) translateX(${x * 0.3}px)`;
-                }
-            });
-        }
-
-        // ==========================================
-        // Stat counter animation
-        // ==========================================
-        function animateCounters() {
-            const counters = document.querySelectorAll('.stat-number');
-            counters.forEach(counter => {
-                const text = counter.textContent;
-                // Only animate numeric-looking values
-                if (text === '$0') return;
-                const match = text.match(/(\d+)/);
-                if (!match) return;
-
-                const target = parseInt(match[1]);
-                const suffix = text.replace(match[1], '').trim();
-                const prefix = text.indexOf(match[1]) > 0 ? text.substring(0, text.indexOf(match[1])) : '';
-                const duration = 2000;
-                const startTime = performance.now();
-
-                function update(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.floor(eased * target);
-
-                    counter.textContent = prefix + current + suffix;
-
-                    if (progress < 1) {
-                        requestAnimationFrame(update);
-                    } else {
-                        counter.textContent = text;
-                    }
-                }
-
-                requestAnimationFrame(update);
-            });
-        }
-
-        // Trigger counter animation when stats section is visible
-        const statsSection = document.querySelector('.stat-number');
-        if (statsSection) {
-            const statsObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        animateCounters();
-                        statsObserver.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.5 });
-
-            statsObserver.observe(statsSection.closest('section'));
-        }
-
-        // ==========================================
-        // Navbar scroll effect (subtle)
-        // ==========================================
-        let lastScroll = 0;
-        window.addEventListener('scroll', () => {
-            const badge = document.querySelector('.crown-badge');
-            if (window.scrollY > 100) {
-                badge.style.opacity = '0.7';
-                badge.style.transform = 'scale(0.9)';
-            } else {
-                badge.style.opacity = '1';
-                badge.style.transform = 'scale(1)';
-            }
-            badge.style.transition = 'all 0.3s ease';
-        });
+  statsObserver.observe(document.getElementById('stats'));
