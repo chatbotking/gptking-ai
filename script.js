@@ -281,3 +281,17 @@ const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').m
   }, { threshold: 0.3 });
 
   statsObserver.observe(document.getElementById('stats'));
+
+// Configure voice launcher widget
+  window.PayMeGPTConfig = {
+    widgetId: '6329173',
+    type: 'voice_launcher',
+    primaryColor: '#36D6B5',
+    position: 'bottom-right',
+    label: 'Test our Voice AI',
+    icon: 'mic',
+    startButtonText: 'Talk',
+    stopButtonText: 'Stop',
+    theme: 'dark',
+    customFooterText: 'Powered by PayMeGPT'
+  };
