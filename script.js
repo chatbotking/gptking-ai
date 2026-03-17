@@ -286,7 +286,7 @@ const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').m
   window.PayMeGPTConfig = {
     widgetId: '6329173',
     type: 'voice_launcher',
-    primaryColor: '#36D6B5',
+    primaryColor: '#D4A017',
     position: 'bottom-right',
     label: 'Test our Voice AI',
     icon: 'mic',
