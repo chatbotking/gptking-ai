@@ -10,24 +10,31 @@
 </head>
 <body>
 
-<!-- Cursor -->
+<div class="progress-bar" id="progressBar"></div>
+<div class="bg-grid"></div>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-orb orb-3"></div>
+<div class="bg-vignette"></div>
+
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
-<!-- Nav -->
 <nav>
   <div class="nav-logo">GPTKing<span>.AI</span></div>
   <ul class="nav-links">
     <li><a href="#features">Features</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#" class="nav-cta">Get Started</a></li>
+    <li><a href="#" class="nav-cta magnetic">Get Started</a></li>
   </ul>
 </nav>
 
-<!-- Hero -->
 <section class="hero">
-  <div class="hero-glow"></div>
+  <div class="hero-glow" data-parallax="0.03"></div>
+  <div class="hero-rays" data-parallax="0.015"></div>
   <div class="hero-grid"></div>
+  <div class="hero-orbit orbit-1"></div>
+  <div class="hero-orbit orbit-2"></div>
 
   <div class="hero-badge">
     <div class="badge-dot"></div>
@@ -44,8 +51,27 @@
   </p>
 
   <div class="hero-actions">
-    <button class="btn-primary">Start Free</button>
-    <button class="btn-ghost">See the Power →</button>
+    <button class="btn-primary magnetic">Start Free</button>
+    <button class="btn-ghost magnetic">See the Power →</button>
+    <button class="btn-king magnetic" onclick="window.open('https://paymegpt.com/forms/gep8xn09', '_blank')">Work With the King 👑</button>
+  </div>
+
+  <div class="hero-royal-panel">
+    <div class="royal-item">
+      <div class="icon">⚡</div>
+      <strong>Sub-100ms Feel</strong>
+      <small>Fast, sharp, and built to hit like a heavyweight.</small>
+    </div>
+    <div class="royal-item">
+      <div class="icon">♛</div>
+      <strong>Elite Multi-Model Power</strong>
+      <small>Switch between the strongest AI models without breaking flow.</small>
+    </div>
+    <div class="royal-item">
+      <div class="icon">🔒</div>
+      <strong>Zero Fear Privacy</strong>
+      <small>Enterprise-grade protection for your data and your edge.</small>
+    </div>
   </div>
 
   <div class="scroll-hint">
@@ -54,7 +80,6 @@
   </div>
 </section>
 
-<!-- Stats -->
 <section class="stats" id="stats">
   <div class="stat-item">
     <div class="stat-number" data-target="2.4">0</div>
@@ -70,7 +95,6 @@
   </div>
 </section>
 
-<!-- Features -->
 <section class="features" id="features">
   <div class="section-label">Why GPTKing</div>
   <h2 class="section-title">Built different.<br>By design.</h2>
@@ -109,17 +133,17 @@
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <div class="cta-glow"></div>
-  <h2 class="cta-title">Your reign<br><span style="background: linear-gradient(135deg, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">starts now.</span></h2>
-  <p class="cta-sub">Join the AI elite. No credit card required.</p>
-  <div class="cta-btn-wrap">
-    <button class="btn-primary" style="font-size: 15px; padding: 18px 48px;">Claim Your Throne →</button>
+<section class="cta-section" id="about">
+  <div class="cta-shell">
+    <div class="cta-glow"></div>
+    <h2 class="cta-title">Your reign<br><span style="background: linear-gradient(135deg, #fff1b5, var(--gold), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">starts now.</span></h2>
+    <p class="cta-sub">Join the AI elite. No credit card required.</p>
+    <div class="cta-btn-wrap">
+      <button class="btn-primary magnetic" style="font-size: 15px; padding: 18px 48px;">Claim Your Throne →</button>
+    </div>
   </div>
 </section>
 
-<!-- Footer -->
 <footer>
   <div class="footer-logo">GPTKing<span>.AI</span></div>
   <p class="footer-copy">© 2026 GPTKing.AI — All rights reserved</p>
